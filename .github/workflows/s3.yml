@@ -1,30 +1,15 @@
-# name1: Upload to S3
+name: Upload to S3
 
-# on: push
+on: push
 
-# jobs:
-#   upload:
-#     runs-on: ubuntu-18.04
-#     steps:
-#       - run: AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY}} AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_KEY}} aws s3 cp . s3://${{secrets.AWS_BUCKET}}/
-
-
-name: List S3 Contents - Multi OS
-
-on:
-  push
 jobs:
-  uploadS3:
-#     runs-on: ${{ matrix.os }}
-#     strategy:
-#       matrix:
-#         os: [macOS-10.14, windows-2016, ubuntu-18.04]
-    runs-on: ubuntu-22.04
+  upload:
+    runs-on: ubuntu-latest
     steps:
-      - uses: chrislennon/action-aws-cli@v1.1
-      # All commands after this point have access to the AWS CLI
-      - run: pwd
-      - run: AWS_EC2_METADATA_DISABLED=true aws s3 cp ./action.yml s3://${{secrets.AWS_BUCKET}}/
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - uses: actions/checkout@master
+      - uses: Sample-account-github-jira/upload-s3-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: '.github'
