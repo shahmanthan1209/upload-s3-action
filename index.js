@@ -52,6 +52,7 @@ function run() {
         Bucket: BUCKET,
         Body: fileStream,
         Key: bucketPath,
+        ACL: 'private',
         ContentType: lookup(p.path) || 'text/plain'
       };
       return upload(params);
