@@ -15,7 +15,8 @@ inputs:
     description: 'aws bucket name'
     required: true
   source_dir:
-    required: true
+    required: false
+    default: .
     description: 'directory to upload'
   destination_dir:
     required: false
