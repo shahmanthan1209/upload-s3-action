@@ -1,4 +1,4 @@
-ame: S3 Upload
+name: S3 Upload
 
 on: push
 
