@@ -7,6 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::669840494653:role/GALE-DevOps
+          aws-region: us-west-2
       - uses: Sample-account-github-jira/upload-s3-action@master
         with:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
