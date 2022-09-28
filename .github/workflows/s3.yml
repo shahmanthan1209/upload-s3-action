@@ -1,4 +1,4 @@
-name: S3 Upload
+ame: S3 Upload
 
 on: push
 
@@ -13,7 +13,7 @@ jobs:
         uses: ./
         id: upload
         with:
-          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
           aws-bucket: ${{ secrets.AWS_BUCKET}}
@@ -24,7 +24,7 @@ jobs:
           # content-type:
           output-qr-url: true
           # qr-width:
-          public: false
+          # public:
           # expire:
       - name: Show result
         if: always()
