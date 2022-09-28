@@ -1,34 +1,15 @@
-name: S3 Upload
+name: Upload to S3
 
-on: push
+on: [pull_request]
 
 jobs:
   upload:
-    name: Use this action for check
     runs-on: ubuntu-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v2
-      - name: Use this action
-        uses: ./
-        id: upload
+      - uses: actions/checkout@master
+      - uses: shallwefootball/s3-upload-action@master
         with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-west-2
-          aws_bucket: ${{ secrets.AWS_BUCKET}}
-          file-path: ./README.md
-#           destination-dir: ./
-          # bucket-root:
-          output-file-url: true
-          # content-type:
-          output-qr-url: true
-          # qr-width:
-          # public:
-          # expire:
-      - name: Show result
-        if: always()
-        run: |
-          echo '${{ steps.upload.outputs.result }}'
-          echo '${{ steps.upload.outputs.file-url }}'
-          echo '${{ steps.upload.outputs.qr-url }}'
+          aws_key_id: ${{ secrets.AWS_SECRET_KEY }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: './.github/'
