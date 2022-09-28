@@ -18,7 +18,7 @@ jobs:
           aws-region: us-west-2
           aws-bucket: ${{ secrets.AWS_BUCKET}}
           file-path: ./README.md
-          # destination-dir:
+          destination-dir: ./
           # bucket-root:
           output-file-url: true
           # content-type:
