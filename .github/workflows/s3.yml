@@ -1,15 +1,50 @@
-name: Upload to S3
+# name: Upload to S3
+
+# on: push
+
+# jobs:
+#   upload:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@master
+#       - uses: Sample-account-github-jira/upload-s3-action@master
+#         with:
+#           aws_key_id: ${{ secrets.AWS_KEY_ID }}
+#           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+#           aws_bucket: ${{ secrets.AWS_BUCKET }}
+#           source_dir: '.github'
+
+name: S3 Upload
 
 on: push
 
 jobs:
   upload:
+    name: Use this action for check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: Sample-account-github-jira/upload-s3-action@master
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Use this action
+        uses: ./
+        id: upload
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: '.github'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+          aws-bucket: ${{ secrets.AWS_BUCKET}}
+          file-path: ./README.md
+          # destination-dir:
+          # bucket-root:
+          output-file-url: true
+          # content-type:
+          output-qr-url: true
+          # qr-width:
+          public: false
+          # expire:
+      - name: Show result
+        if: always()
+        run: |
+          echo '${{ steps.upload.outputs.result }}'
+          echo '${{ steps.upload.outputs.file-url }}'
+          echo '${{ steps.upload.outputs.qr-url }}'
