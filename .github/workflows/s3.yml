@@ -2,20 +2,27 @@ name: Upload to S3
 
 on: push
 
+permissions:
+  id-token: write # required to use OIDC authentication
+  contents: read 
+  
 jobs:
   upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@master
         with:
-          role-to-assume: arn:aws:iam::669840494653:role/GALE-DevOps
+          role-to-assume: ${{ secrets.AWS_ROLE_FOR_GITHUB }}
           aws-region: us-west-2
+
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          aws s3 ls
+
       - uses: Sample-account-github-jira/upload-s3-action@master
         with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
           source_dir: '.'
           destination_dir: 'kjv8qkRk-'
